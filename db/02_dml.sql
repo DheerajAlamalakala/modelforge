@@ -164,3 +164,12 @@ ORDER BY user_id;
 
 ROLLBACK;
 
+-- Confirm the seed row counts (each table should report 15).
+SELECT 'users' AS table_name, COUNT(*) AS row_count FROM users
+UNION ALL SELECT 'projects', COUNT(*) FROM projects
+UNION ALL SELECT 'datasets', COUNT(*) FROM datasets
+UNION ALL SELECT 'gpu_nodes', COUNT(*) FROM gpu_nodes
+UNION ALL SELECT 'experiments', COUNT(*) FROM experiments
+UNION ALL SELECT 'runs', COUNT(*) FROM runs
+UNION ALL SELECT 'metrics', COUNT(*) FROM metrics
+UNION ALL SELECT 'audit_log', COUNT(*) FROM audit_log;

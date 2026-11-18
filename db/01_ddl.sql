@@ -121,17 +121,18 @@ ALTER TABLE users MODIFY COLUMN name VARCHAR(100) NOT NULL;
 ALTER TABLE users RENAME COLUMN lab_note TO temporary_note;
 ALTER TABLE users DROP COLUMN temporary_note;
 
--- TRUNCATE and DROP examples use a disposable table and do not affect lab data.
-CREATE TABLE ddl_demo (
+-- CREATE TABLE AS SELECT, TRUNCATE, and DROP examples use disposable tables.
+CREATE TABLE ddl_demo_source (
   demo_id INT PRIMARY KEY,
   note VARCHAR(40)
 ) ENGINE=InnoDB;
-INSERT INTO ddl_demo VALUES (1, 'truncate example');
-TRUNCATE TABLE ddl_demo;
-DROP TABLE ddl_demo;
+INSERT INTO ddl_demo_source VALUES (1, 'CTAS example');
+CREATE TABLE ddl_demo_copy AS SELECT demo_id, note FROM ddl_demo_source;
+TRUNCATE TABLE ddl_demo_copy;
+DROP TABLE ddl_demo_copy;
+DROP TABLE ddl_demo_source;
 
 -- Optional inspection:
 -- SHOW TABLES;
 -- DESCRIBE runs;
 -- SHOW CREATE TABLE runs;
-
