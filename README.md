@@ -46,7 +46,7 @@ Requires MySQL 8.0. In MySQL Workbench, run these files in order:
 
 The DDL script drops and recreates the dedicated modelforge database for a clean setup. The quota violation and view CHECK OPTION errors are commented examples; run them individually when demonstrating those errors.
 
-## Web portal (SL Lab)
+## Web portal 
 
 The PHP app uses the same eight-table modelforge database. It includes registration/login with password hashing, a 20-minute idle session timeout, a visit cookie, project and dataset forms, batch experiment insertion with explode(), jQuery UI autocomplete (with a local datalist fallback), and a project dropdown that loads runs through AJAX. The XML catalog is at web/public/catalog/datasets.xml and uses its sibling DTD and XSLT files.
 
