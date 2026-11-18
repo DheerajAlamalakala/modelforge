@@ -1,3 +1,4 @@
 web/config.local.php
 web/.env
 web/vendor/
+web/.db-dump.cnf

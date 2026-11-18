@@ -1,6 +1,6 @@
 # ModelForge
 
-A local ML experiment tracker built across three lab courses: a MySQL database (DBMS Lab), a PHP/JavaScript web portal (Scripting Languages Lab), and a Java Swing desktop app (Java Programming Lab).
+A local ML experiment tracker built for DBMS Lab (MySQL) and Scripting Languages Lab (PHP/JavaScript). A Java Swing extension is planned for the Java Programming Lab.
 
 ## Database (DBMS Lab)
 
@@ -60,13 +60,13 @@ Then open http://127.0.0.1:8000, register an account, add a project and dataset,
 
 ## Submission checklist
 
-- [ ] Reverse-engineer modelforge in Workbench and export the EER diagram.
-- [ ] Save a database dump as db/modelforge_dump.sql.
-- [ ] Save query and demonstration screenshots in db/screenshots/.
-- [ ] Run all five scripts against a fresh database and confirm expected row counts and objects.
+- [x] Schema relationship diagram exported to `db/eer_diagram.png` and `db/eer_diagram.pdf`.
+- [x] Full MySQL snapshot saved as `db/modelforge_dump.sql` (includes routines and triggers).
+- [ ] Add Workbench screenshots of the queries and demonstrations to `db/screenshots/` if screenshots are required by the lab rubric.
+- [x] Run all five scripts in order on an isolated temporary MySQL 8.0 database; each completed successfully. The seed script reported 15 rows in each table, and the final schema contained 4 views, 3 triggers, and 8 routines.
 
 ## Project status
 
-- [ ] Database layer (SQL scripts and seed data complete; clean run pending)
-- [ ] Web portal (implementation complete; local credentials and browser run pending)
-- [ ] Java desktop app
+- [x] DBMS database layer (schema, sample data, queries, views, TCL, stored programs, diagram, dump, and isolated clean-run verification)
+- [x] SL PHP/JavaScript portal (registration/login, sessions, forms, XML catalog, autocomplete, project run explorer; live localhost login and API verified)
+- [ ] Java desktop app (outside the DBMS and SL deliverables)
