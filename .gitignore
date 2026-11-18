@@ -1,0 +1,3 @@
+web/config.local.php
+web/.env
+web/vendor/

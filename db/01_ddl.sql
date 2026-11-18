@@ -14,6 +14,7 @@ CREATE TABLE users (
   user_id    INT AUTO_INCREMENT PRIMARY KEY,
   name       VARCHAR(80)  NOT NULL,
   email      VARCHAR(120) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NULL,
   role       VARCHAR(20)  NOT NULL DEFAULT 'researcher',
   CONSTRAINT chk_users_role CHECK (role IN ('admin','researcher','viewer'))
 ) ENGINE=InnoDB;

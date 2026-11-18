@@ -46,6 +46,18 @@ Requires MySQL 8.0. In MySQL Workbench, run these files in order:
 
 The DDL script drops and recreates the dedicated modelforge database for a clean setup. The quota violation and view CHECK OPTION errors are commented examples; run them individually when demonstrating those errors.
 
+## Web portal (SL Lab)
+
+The PHP app uses the same eight-table modelforge database. It includes registration/login with password hashing, a 20-minute idle session timeout, a visit cookie, project and dataset forms, batch experiment insertion with explode(), jQuery UI autocomplete (with a local datalist fallback), and a project dropdown that loads runs through AJAX. The XML catalog is at web/public/catalog/datasets.xml and uses its sibling DTD and XSLT files.
+
+Requires PHP 8.1+ with PDO MySQL enabled. Copy web/config.example.php to web/config.local.php and enter the local MySQL credentials there; config.local.php is ignored by Git. For an existing database created before password_hash was added, run web/setup.sql once in Workbench. A fresh database created with the current db/01_ddl.sql already has that column.
+
+From the repository root, start the local server with:
+
+    php -S 127.0.0.1:8000 -t web/public
+
+Then open http://127.0.0.1:8000, register an account, add a project and dataset, and use the batch experiment form. jQuery UI is loaded from its CDN; the autocomplete degrades to a native datalist if the CDN is unavailable.
+
 ## Submission checklist
 
 - [ ] Reverse-engineer modelforge in Workbench and export the EER diagram.
@@ -56,5 +68,5 @@ The DDL script drops and recreates the dedicated modelforge database for a clean
 ## Project status
 
 - [ ] Database layer (SQL scripts and seed data complete; clean run pending)
-- [ ] Web portal
+- [ ] Web portal (implementation complete; local credentials and browser run pending)
 - [ ] Java desktop app
