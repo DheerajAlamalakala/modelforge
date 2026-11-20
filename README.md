@@ -48,15 +48,15 @@ The DDL script drops and recreates the dedicated modelforge database for a clean
 
 ## Web portal
 
-The PHP app uses the same eight-table modelforge database. It includes registration/login with password hashing, a 20-minute idle session timeout, a visit cookie, project and dataset forms, batch experiment insertion with explode(), jQuery UI autocomplete (with a local datalist fallback), and a project dropdown that loads runs through AJAX. The XML catalog is at `web/public/catalog/datasets.xml`, with its sibling DTD and XSLT. Open `/catalog/` for the browser-safe HTML view, which parses the XML with JavaScript for browsers that do not apply XSLT directly; the source files can be downloaded from that view.
+The PHP app uses the same eight-table modelforge database. It includes registration/login with password hashing, a 20-minute idle session timeout, a visit cookie, project and dataset forms with source URLs, batch experiment insertion with explode(), jQuery UI autocomplete (with a local datalist fallback), run update/delete, status filtering, per-epoch loss/accuracy entry, run notes, and account deletion with password confirmation. The XML catalog is at `web/public/catalog/datasets.xml`, with its sibling DTD and XSLT. Open `/catalog/` for the browser-safe HTML view, which parses the XML with JavaScript for browsers that do not apply XSLT directly; the source files can be downloaded from that view.
 
-Requires PHP 8.1+ with PDO MySQL enabled. Copy web/config.example.php to web/config.local.php and enter the local MySQL credentials there; config.local.php is ignored by Git. For an existing database created before password_hash was added, run web/setup.sql once in Workbench. A fresh database created with the current db/01_ddl.sql already has that column.
+Requires PHP 8.1+ with PDO MySQL enabled. Copy web/config.example.php to web/config.local.php and enter the local MySQL credentials there; config.local.php is ignored by Git. For an existing database created before the authentication, dataset source URL, and run notes columns were added, run `web/setup.sql` once in Workbench. A fresh database created with the current `db/01_ddl.sql` already has all three columns.
 
 From the repository root, start the local server with:
 
     php -S 127.0.0.1:8000 -t web/public
 
-Then open http://127.0.0.1:8000, register an account, add a project and dataset, and use the batch experiment form. jQuery UI is loaded from its CDN; the autocomplete degrades to a native datalist if the CDN is unavailable.
+Then open http://127.0.0.1:8000, register with matching password entries, add a project and a dataset source URL, batch-add experiments, start a run, enter epoch loss/accuracy, and mark the run complete. Run rows can be edited or deleted; account deletion requires the current password and typing DELETE. jQuery UI is loaded from its CDN; the autocomplete degrades to a native datalist if the CDN is unavailable.
 
 ## Submission checklist
 

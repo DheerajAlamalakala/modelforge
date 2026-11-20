@@ -39,7 +39,7 @@ CREATE TABLE `audit_log` (
   PRIMARY KEY (`log_id`),
   KEY `fk_audit_run` (`run_id`),
   CONSTRAINT `fk_audit_run` FOREIGN KEY (`run_id`) REFERENCES `runs` (`run_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,12 +65,13 @@ CREATE TABLE `datasets` (
   `name` varchar(120) NOT NULL,
   `size_mb` decimal(12,2) NOT NULL,
   `format` varchar(20) NOT NULL DEFAULT 'csv',
+  `source_url` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`dataset_id`),
   KEY `fk_datasets_project` (`project_id`),
   CONSTRAINT `fk_datasets_project` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `chk_datasets_format` CHECK ((`format` in (_utf8mb4'csv',_utf8mb4'json',_utf8mb4'parquet',_utf8mb4'images'))),
   CONSTRAINT `datasets_chk_1` CHECK ((`size_mb` >= 0))
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +80,7 @@ CREATE TABLE `datasets` (
 
 LOCK TABLES `datasets` WRITE;
 /*!40000 ALTER TABLE `datasets` DISABLE KEYS */;
-INSERT INTO `datasets` VALUES (1,1,'ImageNet-100 subset',18432.00,'images'),(2,2,'Sentinel-2 cloudy-clear pairs',32768.50,'parquet'),(3,3,'Massachusetts roads tiles',5120.00,'images'),(4,4,'PlantVillage RGB images',4096.75,'images'),(5,5,'Indic news articles v2',1280.00,'json'),(6,6,'Daily retail sales 2019-2025',96.40,'csv'),(7,7,'Camera-trap wildlife frames',15360.00,'images'),(8,8,'Chest X-ray 14 sample',8192.00,'images'),(9,9,'Urban sound clips metadata',740.25,'parquet'),(10,10,'DocLayNet training subset',24576.00,'images'),(11,11,'GTSRB cropped signs',2048.00,'images'),(12,12,'CoastSat seasonal patches',9216.00,'parquet'),(13,13,'Factory surface defects',6144.00,'images'),(14,14,'Hourly smart-meter readings',512.50,'csv'),(15,15,'ML engineering notes corpus',3584.00,'json'),(16,16,'CIFAR-10 demo subset',120.50,'images');
+INSERT INTO `datasets` VALUES (1,1,'ImageNet-100 subset',18432.00,'images','https://www.image-net.org/'),(2,2,'Sentinel-2 cloudy-clear pairs',32768.50,'parquet','https://patricktum.github.io/cloud_removal/sen12mscr/'),(3,3,'Massachusetts roads tiles',5120.00,'images','https://www.cs.toronto.edu/~vmnih/data/'),(4,4,'PlantVillage RGB images',4096.75,'images','https://github.com/spMohanty/PlantVillage-Dataset'),(5,5,'Indic news articles v2',1280.00,'json','https://zenodo.org/records/10020768'),(6,6,'Daily retail sales 2019-2025',96.40,'csv',NULL),(7,7,'Camera-trap wildlife frames',15360.00,'images',NULL),(8,8,'Chest X-ray 14 sample',8192.00,'images',NULL),(9,9,'Urban sound clips metadata',740.25,'parquet',NULL),(10,10,'DocLayNet training subset',24576.00,'images',NULL),(11,11,'GTSRB cropped signs',2048.00,'images',NULL),(12,12,'CoastSat seasonal patches',9216.00,'parquet',NULL),(13,13,'Factory surface defects',6144.00,'images',NULL),(14,14,'Hourly smart-meter readings',512.50,'csv',NULL),(15,15,'ML engineering notes corpus',3584.00,'json',NULL),(16,16,'CIFAR-10 demo subset',120.50,'images',NULL),(17,18,'sen',100000000.00,'images',NULL);
 /*!40000 ALTER TABLE `datasets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +101,7 @@ CREATE TABLE `experiments` (
   KEY `fk_experiments_dataset` (`dataset_id`),
   CONSTRAINT `fk_experiments_dataset` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`dataset_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_experiments_project` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +110,7 @@ CREATE TABLE `experiments` (
 
 LOCK TABLES `experiments` WRITE;
 /*!40000 ALTER TABLE `experiments` DISABLE KEYS */;
-INSERT INTO `experiments` VALUES (1,1,1,'ResNet-50 AdamW baseline'),(2,2,2,'Cloud mask U-Net v1'),(3,3,3,'U-Net roads 512px'),(4,4,4,'EfficientNet-B0 transfer learning'),(5,5,5,'IndicBERT topic baseline'),(6,6,6,'LightGBM lag-feature baseline'),(7,7,7,'YOLO wildlife detector small'),(8,8,8,'DenseNet-121 X-ray baseline'),(9,9,9,'AST audio classifier'),(10,10,10,'LayoutLM document regions'),(11,11,11,'ResNet-18 sign classifier'),(12,12,12,'Siamese coastal change model'),(13,13,13,'ConvNeXt-T defect classifier'),(14,14,14,'Temporal CNN energy forecast'),(15,15,15,'LoRA 1B domain adaptation'),(16,16,16,'ResNet-18 baseline');
+INSERT INTO `experiments` VALUES (1,1,1,'ResNet-50 AdamW baseline'),(2,2,2,'Cloud mask U-Net v1'),(3,3,3,'U-Net roads 512px'),(4,4,4,'EfficientNet-B0 transfer learning'),(5,5,5,'IndicBERT topic baseline'),(6,6,6,'LightGBM lag-feature baseline'),(7,7,7,'YOLO wildlife detector small'),(8,8,8,'DenseNet-121 X-ray baseline'),(9,9,9,'AST audio classifier'),(10,10,10,'LayoutLM document regions'),(11,11,11,'ResNet-18 sign classifier'),(12,12,12,'Siamese coastal change model'),(13,13,13,'ConvNeXt-T defect classifier'),(14,14,14,'Temporal CNN energy forecast'),(15,15,15,'LoRA 1B domain adaptation'),(16,16,16,'ResNet-18 baseline'),(17,18,17,'transformer');
 /*!40000 ALTER TABLE `experiments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +162,7 @@ CREATE TABLE `metrics` (
   CONSTRAINT `chk_metrics_accuracy` CHECK (((`accuracy` is null) or (`accuracy` between 0 and 1))),
   CONSTRAINT `chk_metrics_loss` CHECK (((`loss` is null) or (`loss` >= 0))),
   CONSTRAINT `metrics_chk_1` CHECK ((`epoch` > 0))
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +190,7 @@ CREATE TABLE `projects` (
   PRIMARY KEY (`project_id`),
   KEY `fk_projects_owner` (`owner_id`),
   CONSTRAINT `fk_projects_owner` FOREIGN KEY (`owner_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,7 +199,7 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES (1,1,'ImageNet ResNet Benchmark','2026-10-01'),(2,2,'Cloud Removal from Satellite Images','2026-10-02'),(3,3,'Road Segmentation with U-Net','2026-10-03'),(4,4,'Plant Disease Classification','2026-10-04'),(5,6,'Hindi News Topic Classifier','2026-10-05'),(6,7,'Retail Demand Forecasting','2026-10-06'),(7,9,'Wildlife Camera Detection','2026-10-07'),(8,10,'Chest X-ray Baseline','2026-10-08'),(9,11,'Audio Event Recognition','2026-10-09'),(10,13,'Document Layout Parsing','2026-10-10'),(11,14,'Traffic Sign Recognition','2026-10-11'),(12,2,'Coastal Change Segmentation','2026-10-12'),(13,3,'Product Defect Detection','2026-10-13'),(14,6,'Energy Load Forecasting','2026-10-14'),(15,1,'Small Language Model Fine-tuning','2026-10-15'),(16,16,'Demo Image Classifier','2026-11-18'),(17,16,'llm','2026-11-18');
+INSERT INTO `projects` VALUES (1,1,'ImageNet ResNet Benchmark','2026-10-01'),(2,2,'Cloud Removal from Satellite Images','2026-10-02'),(3,3,'Road Segmentation with U-Net','2026-10-03'),(4,4,'Plant Disease Classification','2026-10-04'),(5,6,'Hindi News Topic Classifier','2026-10-05'),(6,7,'Retail Demand Forecasting','2026-10-06'),(7,9,'Wildlife Camera Detection','2026-10-07'),(8,10,'Chest X-ray Baseline','2026-10-08'),(9,11,'Audio Event Recognition','2026-10-09'),(10,13,'Document Layout Parsing','2026-10-10'),(11,14,'Traffic Sign Recognition','2026-10-11'),(12,2,'Coastal Change Segmentation','2026-10-12'),(13,3,'Product Defect Detection','2026-10-13'),(14,6,'Energy Load Forecasting','2026-10-14'),(15,1,'Small Language Model Fine-tuning','2026-10-15'),(16,16,'Demo Image Classifier','2026-11-18'),(17,16,'llm','2026-11-18'),(18,17,'xyz technologies','2026-11-20');
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,6 +218,7 @@ CREATE TABLE `runs` (
   `accuracy` decimal(5,4) DEFAULT NULL,
   `loss` decimal(8,4) DEFAULT NULL,
   `vram_used_gb` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `notes` varchar(500) DEFAULT NULL,
   `started_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ended_at` datetime DEFAULT NULL,
   PRIMARY KEY (`run_id`),
@@ -228,7 +230,7 @@ CREATE TABLE `runs` (
   CONSTRAINT `chk_runs_loss` CHECK (((`loss` is null) or (`loss` >= 0))),
   CONSTRAINT `chk_runs_status` CHECK ((`status` in (_utf8mb4'queued',_utf8mb4'running',_utf8mb4'done',_utf8mb4'failed'))),
   CONSTRAINT `chk_runs_vram` CHECK ((`vram_used_gb` >= 0))
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,7 +239,7 @@ CREATE TABLE `runs` (
 
 LOCK TABLES `runs` WRITE;
 /*!40000 ALTER TABLE `runs` DISABLE KEYS */;
-INSERT INTO `runs` VALUES (1,1,1,'done',0.9412,0.1834,18.50,'2026-11-01 09:00:00','2026-11-01 10:42:00'),(2,2,2,'done',0.8875,0.2710,52.00,'2026-11-01 11:00:00','2026-11-01 13:18:00'),(3,3,4,'done',0.9120,0.2241,26.00,'2026-11-02 08:30:00','2026-11-02 10:05:00'),(4,4,5,'done',0.9633,0.1088,21.00,'2026-11-02 10:30:00','2026-11-02 11:47:00'),(5,5,7,'failed',NULL,1.8420,20.00,'2026-11-03 09:15:00','2026-11-03 09:29:00'),(6,6,11,'done',0.7814,0.3920,8.00,'2026-11-03 12:00:00','2026-11-03 12:38:00'),(7,7,8,'running',NULL,0.6100,19.50,'2026-11-04 07:45:00',NULL),(8,8,9,'done',0.8244,0.3562,31.00,'2026-11-04 08:00:00','2026-11-04 10:20:00'),(9,9,10,'done',0.9068,0.2475,17.00,'2026-11-05 14:00:00','2026-11-05 15:31:00'),(10,10,3,'done',0.9321,0.1940,49.00,'2026-11-06 09:00:00','2026-11-06 12:12:00'),(11,11,14,'queued',NULL,NULL,0.00,'2026-11-18 08:00:00',NULL),(12,12,15,'done',0.8730,0.3021,46.00,'2026-11-07 11:00:00','2026-11-07 13:42:00'),(13,13,1,'done',0.9587,0.1190,20.00,'2026-11-08 10:00:00','2026-11-08 11:06:00'),(14,14,13,'failed',NULL,0.9330,23.00,'2026-11-09 16:10:00','2026-11-09 16:15:00'),(15,15,2,'done',0.9146,0.2115,68.00,'2026-11-10 07:00:00','2026-11-10 09:55:00'),(18,16,1,'done',0.9300,0.1800,4.00,'2026-11-18 22:52:02','2026-11-18 17:22:02'),(19,16,NULL,'queued',NULL,NULL,0.00,'2026-11-18 22:56:34',NULL);
+INSERT INTO `runs` VALUES (1,1,1,'done',0.9412,0.1834,18.50,NULL,'2026-11-01 09:00:00','2026-11-01 10:42:00'),(2,2,2,'done',0.8875,0.2710,52.00,NULL,'2026-11-01 11:00:00','2026-11-01 13:18:00'),(3,3,4,'done',0.9120,0.2241,26.00,NULL,'2026-11-02 08:30:00','2026-11-02 10:05:00'),(4,4,5,'done',0.9633,0.1088,21.00,NULL,'2026-11-02 10:30:00','2026-11-02 11:47:00'),(5,5,7,'failed',NULL,1.8420,20.00,NULL,'2026-11-03 09:15:00','2026-11-03 09:29:00'),(6,6,11,'done',0.7814,0.3920,8.00,NULL,'2026-11-03 12:00:00','2026-11-03 12:38:00'),(7,7,8,'running',NULL,0.6100,19.50,NULL,'2026-11-04 07:45:00',NULL),(8,8,9,'done',0.8244,0.3562,31.00,NULL,'2026-11-04 08:00:00','2026-11-04 10:20:00'),(9,9,10,'done',0.9068,0.2475,17.00,NULL,'2026-11-05 14:00:00','2026-11-05 15:31:00'),(10,10,3,'done',0.9321,0.1940,49.00,NULL,'2026-11-06 09:00:00','2026-11-06 12:12:00'),(11,11,14,'queued',NULL,NULL,0.00,NULL,'2026-11-18 08:00:00',NULL),(12,12,15,'done',0.8730,0.3021,46.00,NULL,'2026-11-07 11:00:00','2026-11-07 13:42:00'),(13,13,1,'done',0.9587,0.1190,20.00,NULL,'2026-11-08 10:00:00','2026-11-08 11:06:00'),(14,14,13,'failed',NULL,0.9330,23.00,NULL,'2026-11-09 16:10:00','2026-11-09 16:15:00'),(15,15,2,'done',0.9146,0.2115,68.00,NULL,'2026-11-10 07:00:00','2026-11-10 09:55:00'),(18,16,1,'done',0.9300,0.1800,4.00,NULL,'2026-11-18 22:52:02','2026-11-18 17:22:02'),(19,16,NULL,'queued',NULL,NULL,0.00,NULL,'2026-11-18 22:56:34',NULL),(20,16,2,'queued',0.9000,1.0000,8.00,NULL,'2026-11-20 13:07:18',NULL),(21,17,9,'running',0.9990,0.1005,25.00,NULL,'2026-11-20 13:13:10',NULL);
 /*!40000 ALTER TABLE `runs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -325,7 +327,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`),
   CONSTRAINT `chk_users_role` CHECK ((`role` in (_utf8mb4'admin',_utf8mb4'researcher',_utf8mb4'viewer')))
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -334,7 +336,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Aarav Mehta','aarav.mehta@example.com',NULL,'admin'),(2,'Mira Shah','mira.shah@example.com',NULL,'researcher'),(3,'Kabir Rao','kabir.rao@example.com',NULL,'researcher'),(4,'Ananya Iyer','ananya.iyer@example.com',NULL,'researcher'),(5,'Rohan Das','rohan.das@example.com',NULL,'viewer'),(6,'Isha Nair','isha.nair@example.com',NULL,'researcher'),(7,'Dev Patel','dev.patel@example.com',NULL,'researcher'),(8,'Sara Khan','sara.khan@example.com',NULL,'viewer'),(9,'Neel Joshi','neel.joshi@example.com',NULL,'researcher'),(10,'Tara Bose','tara.bose@example.com',NULL,'researcher'),(11,'Arjun Menon','arjun.menon@example.com',NULL,'researcher'),(12,'Diya Kulkarni','diya.kulkarni@example.com',NULL,'viewer'),(13,'Vikram Sen','vikram.sen@example.com',NULL,'researcher'),(14,'Nina Kapoor','nina.kapoor@example.com',NULL,'researcher'),(15,'Om Verma','om.verma@example.com',NULL,'viewer'),(16,'ModelForge Demo','demo@modelforge.dev','$2y$12$bUmLYEIAe6J4NIT8gPym1uh1XOMGFKUD5Z5kI7GPVzrVoVJnQdupi','researcher');
+INSERT INTO `users` VALUES (1,'Aarav Mehta','aarav.mehta@example.com',NULL,'admin'),(2,'Mira Shah','mira.shah@example.com',NULL,'researcher'),(3,'Kabir Rao','kabir.rao@example.com',NULL,'researcher'),(4,'Ananya Iyer','ananya.iyer@example.com',NULL,'researcher'),(5,'Rohan Das','rohan.das@example.com',NULL,'viewer'),(6,'Isha Nair','isha.nair@example.com',NULL,'researcher'),(7,'Dev Patel','dev.patel@example.com',NULL,'researcher'),(8,'Sara Khan','sara.khan@example.com',NULL,'viewer'),(9,'Neel Joshi','neel.joshi@example.com',NULL,'researcher'),(10,'Tara Bose','tara.bose@example.com',NULL,'researcher'),(11,'Arjun Menon','arjun.menon@example.com',NULL,'researcher'),(12,'Diya Kulkarni','diya.kulkarni@example.com',NULL,'viewer'),(13,'Vikram Sen','vikram.sen@example.com',NULL,'researcher'),(14,'Nina Kapoor','nina.kapoor@example.com',NULL,'researcher'),(15,'Om Verma','om.verma@example.com',NULL,'viewer'),(16,'ModelForge Demo','demo@modelforge.dev','$2y$12$bUmLYEIAe6J4NIT8gPym1uh1XOMGFKUD5Z5kI7GPVzrVoVJnQdupi','researcher'),(17,'charan','charansaikumarkurapati@gmail.com','$2y$12$ivbRZ63xLCszPCxsSoa5ouTxh/FtD7QuEpwYbtpBwUcm/lh0DofEq','researcher');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -699,4 +701,4 @@ USE `modelforge`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-11-18 23:05:41
+-- Dump completed on 2026-11-20 13:58:29

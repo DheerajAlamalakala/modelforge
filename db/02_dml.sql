@@ -39,23 +39,22 @@ INSERT INTO projects (project_id, owner_id, title, created_on) VALUES
 (15,1,'Small Language Model Fine-tuning','2026-10-15');
 
 -- DATASETS (15)
-INSERT INTO datasets (dataset_id, project_id, name, size_mb, format) VALUES
-(1,1,'ImageNet-100 subset',18432.00,'images'),
-(2,2,'Sentinel-2 cloudy-clear pairs',32768.50,'parquet'),
-(3,3,'Massachusetts roads tiles',5120.00,'images'),
-(4,4,'PlantVillage RGB images',4096.75,'images'),
-(5,5,'Indic news articles v2',1280.00,'json'),
-(6,6,'Daily retail sales 2019-2025',96.40,'csv'),
-(7,7,'Camera-trap wildlife frames',15360.00,'images'),
-(8,8,'Chest X-ray 14 sample',8192.00,'images'),
-(9,9,'Urban sound clips metadata',740.25,'parquet'),
-(10,10,'DocLayNet training subset',24576.00,'images'),
-(11,11,'GTSRB cropped signs',2048.00,'images'),
-(12,12,'CoastSat seasonal patches',9216.00,'parquet'),
-(13,13,'Factory surface defects',6144.00,'images'),
-(14,14,'Hourly smart-meter readings',512.50,'csv'),
-(15,15,'ML engineering notes corpus',3584.00,'json');
-
+INSERT INTO datasets (dataset_id, project_id, name, size_mb, format, source_url) VALUES
+(1,1,'ImageNet-100 subset',18432.00,'images','https://www.image-net.org/'),
+(2,2,'Sentinel-2 cloudy-clear pairs',32768.50,'parquet','https://patricktum.github.io/cloud_removal/sen12mscr/'),
+(3,3,'Massachusetts roads tiles',5120.00,'images','https://www.cs.toronto.edu/~vmnih/data/'),
+(4,4,'PlantVillage RGB images',4096.75,'images','https://github.com/spMohanty/PlantVillage-Dataset'),
+(5,5,'Hindi News Article Text Dataset',1280.00,'json','https://zenodo.org/records/10020768'),
+(6,6,'Daily retail sales 2019-2025',96.40,'csv',NULL),
+(7,7,'Camera-trap wildlife frames',15360.00,'images',NULL),
+(8,8,'Chest X-ray 14 sample',8192.00,'images',NULL),
+(9,9,'Urban sound clips metadata',740.25,'parquet',NULL),
+(10,10,'DocLayNet training subset',24576.00,'images',NULL),
+(11,11,'GTSRB cropped signs',2048.00,'images',NULL),
+(12,12,'CoastSat seasonal patches',9216.00,'parquet',NULL),
+(13,13,'Factory surface defects',6144.00,'images',NULL),
+(14,14,'Hourly smart-meter readings',512.50,'csv',NULL),
+(15,15,'ML engineering notes corpus',3584.00,'json',NULL);
 -- GPU NODES (15)
 INSERT INTO gpu_nodes (node_id, name, vram_gb, status) VALUES
 (1,'local-rtx4090',24,'idle'),

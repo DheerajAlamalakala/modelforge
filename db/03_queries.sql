@@ -70,6 +70,19 @@ WHERE r.accuracy > (
   SELECT AVG(r2.accuracy) FROM runs r2 WHERE r2.node_id = r.node_id
 );
 
+-- Dataset provenance: source URL links for reproducibility
+SELECT dataset_id, name, format, source_url
+FROM datasets
+WHERE source_url IS NOT NULL
+ORDER BY name;
+
+-- Run lifecycle with per-epoch loss and accuracy (running and completed runs)
+SELECT r.run_id, e.title AS experiment, r.status, r.started_at, r.ended_at,
+       m.epoch, m.loss AS epoch_loss, m.accuracy AS epoch_accuracy
+FROM runs r
+JOIN experiments e ON e.experiment_id = r.experiment_id
+LEFT JOIN metrics m ON m.run_id = r.run_id
+ORDER BY r.run_id, m.epoch;
 -- Joins
 SELECT p.title AS project, e.title AS experiment, r.run_id,
        r.accuracy, g.name AS gpu

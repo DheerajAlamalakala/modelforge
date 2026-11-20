@@ -29,10 +29,10 @@ d.text((82, 91), 'Eight-table MySQL schema · PK primary key · FK foreign key �
 boxes = {
  'users': (80, 150, 470, [('PK','user_id INT'),('','name VARCHAR(80)'),('UQ','email VARCHAR(120)'),('','password_hash VARCHAR(255) NULL'),('','role VARCHAR(20) DEFAULT researcher')]),
  'projects': (660, 150, 470, [('PK','project_id INT'),('FK','owner_id INT → users'),('','title VARCHAR(120)'),('','created_on DATE DEFAULT CURRENT_DATE')]),
- 'datasets': (1240, 150, 470, [('PK','dataset_id INT'),('FK','project_id INT → projects'),('','name VARCHAR(120)'),('','size_mb DECIMAL(12,2)'),('','format VARCHAR(20)')]),
+ 'datasets': (1240, 150, 470, [('PK','dataset_id INT'),('FK','project_id INT → projects'),('','name VARCHAR(120)'),('','size_mb DECIMAL(12,2)'),('','format VARCHAR(20)'),('','source_url VARCHAR(500) NULL')]),
  'gpu_nodes': (1820, 150, 470, [('PK','node_id INT'),('UQ','name VARCHAR(60)'),('','vram_gb INT'),('','status VARCHAR(15)')]),
  'experiments': (660, 560, 470, [('PK','experiment_id INT'),('FK','project_id INT → projects'),('FK?','dataset_id INT NULL → datasets'),('','title VARCHAR(140)')]),
- 'runs': (1240, 560, 470, [('PK','run_id INT'),('FK','experiment_id INT → experiments'),('FK?','node_id INT NULL → gpu_nodes'),('','status VARCHAR(15)'),('','accuracy DECIMAL(5,4) NULL · 0..1'),('','loss DECIMAL(8,4) NULL'),('','vram_used_gb DECIMAL(6,2)'),('','started_at DATETIME'),('','ended_at DATETIME NULL')]),
+ 'runs': (1240, 560, 470, [('PK','run_id INT'),('FK','experiment_id INT → experiments'),('FK?','node_id INT NULL → gpu_nodes'),('','status VARCHAR(15)'),('','accuracy DECIMAL(5,4) NULL · 0..1'),('','loss DECIMAL(8,4) NULL'),('','vram_used_gb DECIMAL(6,2)'),('','notes VARCHAR(500) NULL'),('','started_at DATETIME'),('','ended_at DATETIME NULL')]),
  'metrics': (1240, 1110, 470, [('PK','metric_id INT'),('FK','run_id INT → runs'),('','epoch INT'),('','loss DECIMAL(8,4) NULL'),('','accuracy DECIMAL(5,4) NULL · 0..1')]),
  'audit_log': (1820, 1110, 470, [('PK','log_id INT'),('FK','run_id INT → runs'),('','old_status VARCHAR(15)'),('','new_status VARCHAR(15)'),('','changed_at DATETIME')]),
 }
@@ -60,7 +60,7 @@ link([(1130,690),(1240,690)], '1','0..*','produces',(1129,661),(1244,661),(1150,
 # GPU node optional on a run; a node serves many runs
 link([(1820,280),(1765,280),(1765,690),(1710,690)], '0..*','0..1','executes',(1822,251),(1662,661),(1770,465))
 # runs 1 -> many metrics
-link([(1475,1016),(1475,1110)], '1','0..*','records',(1482,1018),(1482,1085),(1490,1050))
+link([(1475,1020),(1475,1110)], '1','0..*','records',(1482,1022),(1482,1085),(1490,1050))
 # runs 1 -> many status audit entries
 link([(1710,850),(1765,850),(1765,1190),(1820,1190)], '1','0..*','status history',(1694,821),(1822,1160),(1772,984))
 

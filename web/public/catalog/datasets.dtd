@@ -1,7 +1,7 @@
 <!ELEMENT datasetCatalog (dataset+)>
 <!ATTLIST datasetCatalog title CDATA #REQUIRED>
 <!ELEMENT dataset (name, description)>
-<!ATTLIST dataset id ID #REQUIRED project CDATA #REQUIRED format (csv|json|parquet|images) #REQUIRED sizeMb CDATA #REQUIRED>
+<!ATTLIST dataset id ID #REQUIRED project CDATA #REQUIRED format (csv|json|parquet|images) #REQUIRED sizeMb CDATA #REQUIRED sourceUrl CDATA #REQUIRED>
 <!ELEMENT name (#PCDATA)>
 <!ELEMENT description (#PCDATA)>
 

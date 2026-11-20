@@ -2,20 +2,20 @@
 <?xml-stylesheet type="text/xsl" href="datasets.xsl"?>
 <!DOCTYPE datasetCatalog SYSTEM "datasets.dtd">
 <datasetCatalog title="ModelForge Dataset Catalog">
-  <dataset id="sentinel2-cloud-pairs" project="Cloud Removal from Satellite Images" format="parquet" sizeMb="32768.50">
+  <dataset id="sentinel2-cloud-pairs" sourceUrl="https://patricktum.github.io/cloud_removal/sen12mscr/" project="Cloud Removal from Satellite Images" format="parquet" sizeMb="32768.50">
     <name>Sentinel-2 cloudy-clear pairs</name><description>Paired satellite tiles for cloud masking and image reconstruction.</description>
   </dataset>
-  <dataset id="imagenet100" project="ImageNet ResNet Benchmark" format="images" sizeMb="18432.00">
+  <dataset id="imagenet100" sourceUrl="https://www.image-net.org/" project="ImageNet ResNet Benchmark" format="images" sizeMb="18432.00">
     <name>ImageNet-100 subset</name><description>Balanced image subset for transfer-learning and ResNet baselines.</description>
   </dataset>
-  <dataset id="mass-roads" project="Road Segmentation with U-Net" format="images" sizeMb="5120.00">
+  <dataset id="mass-roads" sourceUrl="https://www.cs.toronto.edu/~vmnih/data/" project="Road Segmentation with U-Net" format="images" sizeMb="5120.00">
     <name>Massachusetts roads tiles</name><description>Satellite tiles with road masks for segmentation.</description>
   </dataset>
-  <dataset id="plantvillage" project="Plant Disease Classification" format="images" sizeMb="4096.75">
+  <dataset id="plantvillage" sourceUrl="https://github.com/spMohanty/PlantVillage-Dataset" project="Plant Disease Classification" format="images" sizeMb="4096.75">
     <name>PlantVillage RGB images</name><description>Leaf images labeled by crop and disease class.</description>
   </dataset>
-  <dataset id="indic-news" project="Hindi News Topic Classifier" format="json" sizeMb="1280.00">
-    <name>Indic news articles v2</name><description>Hindi news text with topic labels for classification.</description>
+  <dataset id="indic-news" sourceUrl="https://zenodo.org/records/10020768" project="Hindi News Topic Classifier" format="json" sizeMb="1280.00">
+    <name>Hindi News Article Text Dataset</name><description>Hindi news article corpus for text classification experiments.</description>
   </dataset>
 </datasetCatalog>
 

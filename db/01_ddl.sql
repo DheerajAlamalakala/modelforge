@@ -37,6 +37,7 @@ CREATE TABLE datasets (
   name       VARCHAR(120) NOT NULL,
   size_mb    DECIMAL(12,2) NOT NULL CHECK (size_mb >= 0),
   format     VARCHAR(20) NOT NULL DEFAULT 'csv',
+  source_url VARCHAR(500),
   CONSTRAINT chk_datasets_format CHECK (format IN ('csv','json','parquet','images')),
   CONSTRAINT fk_datasets_project FOREIGN KEY (project_id)
     REFERENCES projects(project_id)
@@ -75,6 +76,7 @@ CREATE TABLE runs (
   accuracy      DECIMAL(5,4),
   loss          DECIMAL(8,4),
   vram_used_gb  DECIMAL(6,2) NOT NULL DEFAULT 0,
+  notes         VARCHAR(500),
   started_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   ended_at      DATETIME,
   CONSTRAINT chk_runs_status CHECK (status IN ('queued','running','done','failed')),

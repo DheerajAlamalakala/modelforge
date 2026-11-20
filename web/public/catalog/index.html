@@ -38,7 +38,7 @@
       <p id="catalog-status" class="muted catalog-loading" role="status">Reading datasets.xml…</p>
       <div id="catalog-table-wrap" class="table-wrap" hidden>
         <table class="catalog-table">
-          <thead><tr><th>Dataset</th><th>Project</th><th>Format</th><th>Size (MB)</th><th>Description</th></tr></thead>
+          <thead><tr><th>Dataset</th><th>Project</th><th>Format</th><th>Size (MB)</th><th>Description</th><th>Source</th></tr></thead>
           <tbody id="catalog-rows"></tbody>
         </table>
       </div>
@@ -81,6 +81,16 @@
           formatCell.append(badge);
           cell(row, dataset.getAttribute('sizeMb') || '—');
           cell(row, dataset.querySelector('description')?.textContent.trim() || '');
+          const sourceCell = cell(row, '');
+          const rawSource = dataset.getAttribute('sourceUrl') || '';
+          try {
+            const source = new URL(rawSource, window.location.href);
+            if (['http:', 'https:'].includes(source.protocol)) {
+              const link = document.createElement('a');
+              link.href = source.href; link.target = '_blank'; link.rel = 'noopener noreferrer';
+              link.textContent = 'Open source ↗'; sourceCell.append(link);
+            } else { sourceCell.textContent = 'No source link'; }
+          } catch { sourceCell.textContent = 'No source link'; }
           fragment.append(row);
         }
         rows.replaceChildren(fragment);
