@@ -12,7 +12,7 @@ setcookie('mf_visits',(string)$visits,['expires'=>time()+604800,'path'=>'/','sec
 <header><a class="brand" href="/"><b>M</b> ModelForge</a><div class="right">Hi, <?=h($_SESSION['name'] ?? 'researcher')?>
 <form method="post" action="/logout.php"><input type="hidden" name="_csrf" value="<?=h($csrf)?>"><button class="quiet">Sign out</button></form></div></header>
 <main class="shell"><section class="hero"><div><p class="eyebrow">MODEL TRAINING WORKSPACE</p><h1>Experiments, at a glance.</h1><p class="muted">Your PHP app is connected to the ModelForge MySQL database.</p></div><div class="stat"><strong><?=count($projects)?></strong><span>your projects</span></div></section>
-<section class="panel"><div class="panel-head"><div><p class="eyebrow">RUN EXPLORER</p><h2>Browse runs by project</h2></div><a href="/catalog/datasets.xml" target="_blank" rel="noopener">Open XML dataset catalog ↗</a></div>
+<section class="panel"><div class="panel-head"><div><p class="eyebrow">RUN EXPLORER</p><h2>Browse runs by project</h2></div><a href="/catalog/" target="_blank" rel="noopener">Open dataset catalog ↗</a></div>
 <?php if(!$projects): ?><p class="notice">Create a project below to get started.</p><?php else: ?>
 <div class="toolbar"><label>Project<select id="project-select"><?php foreach($projects as $p): ?><option value="<?=(int)$p['project_id']?>"><?=h($p['title'])?></option><?php endforeach; ?></select></label>
 <label>Search experiments<input id="experiment-search" list="suggestions" placeholder="Type at least two letters"><datalist id="suggestions"></datalist></label></div>

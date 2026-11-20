@@ -48,7 +48,7 @@ The DDL script drops and recreates the dedicated modelforge database for a clean
 
 ## Web portal
 
-The PHP app uses the same eight-table modelforge database. It includes registration/login with password hashing, a 20-minute idle session timeout, a visit cookie, project and dataset forms, batch experiment insertion with explode(), jQuery UI autocomplete (with a local datalist fallback), and a project dropdown that loads runs through AJAX. The XML catalog is at web/public/catalog/datasets.xml and uses its sibling DTD and XSLT files.
+The PHP app uses the same eight-table modelforge database. It includes registration/login with password hashing, a 20-minute idle session timeout, a visit cookie, project and dataset forms, batch experiment insertion with explode(), jQuery UI autocomplete (with a local datalist fallback), and a project dropdown that loads runs through AJAX. The XML catalog is at `web/public/catalog/datasets.xml`, with its sibling DTD and XSLT. Open `/catalog/` for the browser-safe HTML view, which parses the XML with JavaScript for browsers that do not apply XSLT directly; the source files can be downloaded from that view.
 
 Requires PHP 8.1+ with PDO MySQL enabled. Copy web/config.example.php to web/config.local.php and enter the local MySQL credentials there; config.local.php is ignored by Git. For an existing database created before password_hash was added, run web/setup.sql once in Workbench. A fresh database created with the current db/01_ddl.sql already has that column.
 

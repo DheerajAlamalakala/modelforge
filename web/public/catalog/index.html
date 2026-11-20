@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dataset catalog · ModelForge</title>
+  <link rel="stylesheet" href="/assets/app.css">
+  <style>
+    .catalog-links{display:flex;gap:16px;flex-wrap:wrap}
+    .catalog-table{min-width:720px}
+    .catalog-table td:first-child{font-weight:700;color:#243b4a}
+    .catalog-error{padding:14px;border-radius:9px;background:#fff0ed;color:#a04234}
+    .catalog-loading{padding:12px 0}
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="/"><b>M</b> ModelForge</a>
+    <a href="/">Back to workspace</a>
+  </header>
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">DATA SOURCES</p>
+        <h1>Dataset catalog</h1>
+        <p class="muted">Loaded from the project’s XML catalog.</p>
+      </div>
+      <div class="stat"><strong id="dataset-count">—</strong><span>datasets</span></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head">
+        <div><p class="eyebrow">MODEL DATASETS</p><h2 id="catalog-title">Loading catalog…</h2></div>
+        <nav class="catalog-links" aria-label="Catalog source files">
+          <a href="datasets.xml" download>Download XML source</a>
+          <a href="datasets.xsl" download>Download XSLT</a>
+        </nav>
+      </div>
+      <p id="catalog-status" class="muted catalog-loading" role="status">Reading datasets.xml…</p>
+      <div id="catalog-table-wrap" class="table-wrap" hidden>
+        <table class="catalog-table">
+          <thead><tr><th>Dataset</th><th>Project</th><th>Format</th><th>Size (MB)</th><th>Description</th></tr></thead>
+          <tbody id="catalog-rows"></tbody>
+        </table>
+      </div>
+    </section>
+    <footer>Rendered from XML in JavaScript for browsers that do not apply XSLT directly.</footer>
+  </main>
+  <script>
+    const statusNode = document.getElementById('catalog-status');
+    const cell = (row, value) => {
+      const td = document.createElement('td');
+      td.textContent = value;
+      row.append(td);
+      return td;
+    };
+
+    fetch('datasets.xml', { headers: { Accept: 'application/xml, text/xml' } })
+      .then(response => {
+        if (!response.ok) throw new Error(`Could not load XML (HTTP ${response.status}).`);
+        return response.text();
+      })
+      .then(source => {
+        const xml = new DOMParser().parseFromString(source, 'application/xml');
+        if (xml.querySelector('parsererror')) throw new Error('The dataset XML is malformed.');
+
+        const root = xml.documentElement;
+        const datasets = Array.from(root.children).filter(node => node.tagName === 'dataset');
+        document.getElementById('catalog-title').textContent = root.getAttribute('title') || 'Dataset catalog';
+        document.getElementById('dataset-count').textContent = String(datasets.length);
+
+        const rows = document.getElementById('catalog-rows');
+        const fragment = document.createDocumentFragment();
+        for (const dataset of datasets) {
+          const row = document.createElement('tr');
+          cell(row, dataset.querySelector('name')?.textContent.trim() || 'Untitled dataset');
+          cell(row, dataset.getAttribute('project') || '—');
+          const formatCell = cell(row, '');
+          const badge = document.createElement('span');
+          badge.className = 'badge';
+          badge.textContent = dataset.getAttribute('format') || 'unknown';
+          formatCell.append(badge);
+          cell(row, dataset.getAttribute('sizeMb') || '—');
+          cell(row, dataset.querySelector('description')?.textContent.trim() || '');
+          fragment.append(row);
+        }
+        rows.replaceChildren(fragment);
+        document.getElementById('catalog-table-wrap').hidden = false;
+        statusNode.hidden = true;
+      })
+      .catch(error => {
+        statusNode.className = 'catalog-error';
+        statusNode.textContent = `${error.message} You can download the XML source above.`;
+      });
+  </script>
+</body>
+</html>
